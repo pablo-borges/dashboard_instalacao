@@ -35,10 +35,6 @@
             color: red;
             margin-bottom: 20px;
         }
-		.p {
-		color:red;
-		}
-		
     </style>
 </head>
 <body>
@@ -46,7 +42,7 @@
 <div class="container mt-4">
     <div class="dashboard-header">
         <h1>Dashboard - Overview Instalação SLE</h1>
-        <p class="data-envio" id="data-envio">DATA: --/--/----</p>
+        <p class="data-envio">DATA: 14/12/2024</p>
     </div>
 
     <div class="row">
@@ -55,7 +51,7 @@
             <div class="card">
                 <div class="card-body text-center">
                     <h5 class="card-title">Equipes Ativas</h5>
-                    <p class="display-4" id="equipes-ativas">0</p>
+                    <p class="display-4">5</p>
                 </div>
             </div>
         </div>
@@ -65,8 +61,15 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Colaboradores Afastados</h5>
-                    <ul class="list-group" id="colaboradores-afastados">
-                        <!-- Lista será preenchida dinamicamente -->
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span><strong>João Silva</strong></span>
+                            <span>Motivo: Doença | Retorno: 20/12/2024</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span><strong>Maria Oliveira</strong></span>
+                            <span>Motivo: Licença maternidade | Retorno: 10/01/2025</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -77,49 +80,12 @@
             <div class="card">
                 <div class="card-body text-center">
                     <h5 class="card-title">Atendimentos Possíveis</h5>
-                    <p class="display-4" id="atendimentos-possiveis">0</p>
+                    <p class="display-4">18</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    async function atualizarDashboard() {
-        try {
-            const response = await fetch('dados.json?_=' + new Date().getTime());
-            const dados = await response.json();
-
-            document.getElementById('equipes-ativas').innerText = dados.equipes_ativas;
-            document.getElementById('atendimentos-possiveis').innerText = dados.atendimentos_possiveis;
-            document.getElementById('data-envio').innerText = `Data do envio: ${dados.data_envio}`;
-
-            const listaColaboradores = document.getElementById('colaboradores-afastados');
-            listaColaboradores.innerHTML = '';
-
-            // Verifica se existem colaboradores afastados
-            if (dados.colaboradores_afastados.length === 0) {
-                listaColaboradores.innerHTML = '<li class="list-group-item">Nenhum colaborador afastado</li>';
-            } else {
-                dados.colaboradores_afastados.forEach(colaborador => {
-                    const item = document.createElement('li');
-                    item.classList.add('list-group-item');
-                    item.innerHTML = ` 
-                        <span><strong>${colaborador.nome}</strong></span>
-                        <span>Motivo: ${colaborador.motivo} | Retorno: ${colaborador.data_retorno}</span>
-                    `;
-                    listaColaboradores.appendChild(item);
-                });
-            }
-
-        } catch (error) {
-            console.error('Erro ao atualizar dashboard:', error);
-        }
-    }
-
-    setInterval(atualizarDashboard, 20000);
-    atualizarDashboard();
-</script>
 
 </body>
 </html>
