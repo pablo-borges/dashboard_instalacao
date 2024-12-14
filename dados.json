@@ -1,0 +1,22 @@
+{
+    "equipes_ativas": "15",
+    "atendimentos_possiveis": "188",
+    "data_envio": "sábado 14\/12\/2024",
+    "colaboradores_afastados": [
+        {
+            "nome": "Pablo Borges",
+            "motivo": "Férias",
+            "data_retorno": "25\/12\/2024"
+        },
+        {
+            "nome": "Cassio ",
+            "motivo": "Treinamento Magirus",
+            "data_retorno": "25\/12\/2024"
+        },
+        {
+            "nome": "Stefani ",
+            "motivo": "Atestado",
+            "data_retorno": "24\/12\/2024"
+        }
+    ]
+}

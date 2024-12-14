@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envio de Informações</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .colaborador-group {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h2>Envio de Informações</h2>
+    <form id="infoForm">
+        <label for="equipes">Quantidade de equipes ativas na base:</label>
+        <input type="number" id="equipes" name="equipes" required>
+
+        <label for="atendimentos">Atendimentos possíveis no dia:</label>
+        <input type="number" id="atendimentos" name="atendimentos" required>
+
+        <h3>Colaboradores Afastados</h3>
+        <div id="colaboradores-container">
+            <!-- Grupos de colaboradores serão adicionados aqui dinamicamente -->
+        </div>
+        <button type="button" id="addColaborador">Adicionar Colaborador</button>
+
+        <button type="submit">Enviar Informações</button>
+    </form>
+
+    <script>
+        const colaboradoresContainer = document.getElementById('colaboradores-container');
+        const addColaboradorButton = document.getElementById('addColaborador');
+
+        // Função para adicionar um colaborador
+        addColaboradorButton.addEventListener('click', () => {
+            const colaboradorGroup = document.createElement('div');
+            colaboradorGroup.classList.add('colaborador-group');
+            colaboradorGroup.innerHTML = `
+                <label>Nome do Colaborador:</label>
+                <input type="text" name="colaboradores[nome][]" required>
+
+                <label>Motivo do Afastamento:</label>
+                <textarea name="colaboradores[motivo][]" required></textarea>
+
+                <label>Data de Retorno:</label>
+                <input type="date" name="colaboradores[data_retorno][]" required>
+            `;
+            colaboradoresContainer.appendChild(colaboradorGroup);
+        });
+
+        // Submeter o formulário
+        document.getElementById('infoForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const response = await fetch('processar.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('Informações enviadas com sucesso!');
+                this.reset();
+                colaboradoresContainer.innerHTML = ''; // Limpa os colaboradores
+            } else {
+                alert('Erro ao enviar as informações.');
+            }
+        });
+    </script>
+</body>
+</html>
